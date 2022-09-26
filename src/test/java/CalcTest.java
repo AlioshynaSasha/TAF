@@ -31,21 +31,21 @@ public class CalcTest extends BaseTest {
         Thread.sleep(1000);
     }
 
-    @Test (invocationCount = 3, invocationTimeOut = 1000, threadPoolSize = 3)
+    @Test(invocationCount = 3, invocationTimeOut = 1000, threadPoolSize = 3)
     public void invocationCountTest() throws InterruptedException {
         Thread.sleep(500);
         Assert.assertEquals(calculator.sum(2, 3), 5, "Неверная сумма...");
     }
 
-    @Test (dataProvider = "dataForSum", dataProviderClass = StaticProvider.class, threadPoolSize = 3)
+    @Test(dataProvider = "dataForSum", dataProviderClass = StaticProvider.class, threadPoolSize = 3)
     public void testDataProvider(int a, int b, int expectedResult) {
         Assert.assertEquals(calculator.sum(a, b), expectedResult, "Неверная сумма...");
     }
 
-    @Test (expectedExceptions = NullPointerException.class)
+   /* @Test(expectedExceptions = NullPointerException.class)
     public void testExceptions() {
         List list = null;
         int size = list.size();
     }
-
+*/
 }

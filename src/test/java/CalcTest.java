@@ -28,7 +28,7 @@ public class CalcTest extends BaseTest {
 
     @Test(timeOut = 1000)
     public void waitLongTimeTest() throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(500);
     }
 
     @Test(invocationCount = 3, invocationTimeOut = 1000, threadPoolSize = 3)
@@ -42,10 +42,9 @@ public class CalcTest extends BaseTest {
         Assert.assertEquals(calculator.sum(a, b), expectedResult, "Неверная сумма...");
     }
 
-   /* @Test(expectedExceptions = NullPointerException.class)
+    @Test(expectedExceptions = NullPointerException.class)
     public void testExceptions() {
         List list = null;
         int size = list.size();
     }
-*/
 }

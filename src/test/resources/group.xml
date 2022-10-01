@@ -13,6 +13,9 @@
                 <include name="smoke"/>
                 <include name="regression"/>
             </define>
+            <define name="Group 4">
+                <include name="divide"/>
+            </define>
             <run>
                 <include name="Group 1"/>
             </run>

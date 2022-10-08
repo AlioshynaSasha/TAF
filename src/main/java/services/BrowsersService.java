@@ -1,17 +1,13 @@
-//package services;
-//
-//import configuration.ReadProperties;
-//import io.github.bonigarcia.wdm.WebDriverManager;
-//import io.github.bonigarcia.wdm.config.DriverManagerType;
-//import org.openqa.selenium.WebDriver;
-//import org.openqa.selenium.chrome.ChromeDriver;
-//import org.openqa.selenium.chrome.ChromeOptions;
-//import org.openqa.selenium.firefox.FirefoxDriver;
-//import org.openqa.selenium.safari.SafariDriver;
-//
-//public class BrowsersService {
-//    private WebDriver driver = null;
-//
+package services;
+
+import configuration.ReadProperties;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+public class BrowsersService {
+    private final WebDriver driver;
+
 //    public BrowsersService() {
 //        switch (ReadProperties.browserName().toLowerCase()) {
 //            case "chrome":
@@ -44,11 +40,24 @@
 //                break;
 //        }
 //    }
-//
-//    public WebDriver getDriver() {
-//        driver.manage().window().maximize();
-//        driver.manage().deleteAllCookies();
-//
-//        return driver;
-//    }
-//}
+
+    public BrowsersService() {
+        System.setProperty("webdriver.chrome.driver",
+                "/Users/aleksandra/IdeaProjects/TAF/src/test/resources/chromedriver");
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setHeadless(ReadProperties.isHeadless());
+        chromeOptions.addArguments("--disable-gpu");
+        chromeOptions.addArguments("--ignore-certificate-errors");
+        chromeOptions.addArguments("--silent");
+
+        this.driver = new ChromeDriver(chromeOptions);
+    }
+
+    public WebDriver getDriver() {
+        this.driver.manage().window().maximize();
+        this.driver.manage().deleteAllCookies();
+
+        return driver;
+    }
+}

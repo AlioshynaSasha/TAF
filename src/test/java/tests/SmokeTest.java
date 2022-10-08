@@ -8,14 +8,14 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import services.AdvancedDriver;
+import services.BrowsersService;
 
 public class SmokeTest {
     private WebDriver driver;
 
     @BeforeMethod
     public void setUp() {
-        this.driver = new AdvancedDriver().getDriver();
+        this.driver = new BrowsersService().getDriver();
     }
 
     @Test

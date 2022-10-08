@@ -3,6 +3,7 @@ package tests;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 import services.AdvancedDriver;
+import services.BrowsersService;
 import services.SimpleDriver;
 
 public class FirstTest {
@@ -22,11 +23,11 @@ public class FirstTest {
         driver.quit();
     }
 
-//    @Test
-//    public void browsersServicesTest() throws InterruptedException {
-//        BrowsersService browsersService = new BrowsersService();
-//        WebDriver driver = browsersService.getDriver();
-//        Thread.sleep(2000);
-//        driver.quit();
-//    }
+    @Test
+    public void browsersServicesTest() throws InterruptedException {
+        BrowsersService browsersService = new BrowsersService();
+        WebDriver driver = browsersService.getDriver();
+        Thread.sleep(2000);
+        driver.quit();
+    }
 }

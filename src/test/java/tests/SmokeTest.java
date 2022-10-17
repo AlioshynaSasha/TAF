@@ -10,6 +10,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import services.BrowsersService;
 
+import java.nio.channels.Selector;
+
 public class SmokeTest {
     private WebDriver driver;
 
@@ -34,7 +36,7 @@ public class SmokeTest {
     }
 
     @Test
-    public void validateSKF() throws InterruptedException {
+    public void validateSKFTest() throws InterruptedException {
         driver.get("http://13gp.by/informatsiya/meditsinskie-kalkulyatory/995-raschet-skorosti-klubochkovoj-filtratsii-skf");
 
         WebElement selectWebElement = driver.findElement(By.id("oSex"));
@@ -47,9 +49,28 @@ public class SmokeTest {
         Thread.sleep(2000);
     }
 
+//    Примеры работы с селектами
+    @Test
+    public void validateRoomTest() {
+        driver.get("https://kermi-fko.ru/raschety/Calc-Rehau-Solelec.aspx");
+
+        WebElement selectWebElement = driver.findElement(By.id("room_type"));
+        Select selectRoom = new Select(selectWebElement);
+        selectRoom.selectByValue("2");
+        selectRoom.selectByVisibleText("Кухня или спальня");
+    }
+
+    @Test
+    public void validateHeatingTest() {
+        driver.get("https://kermi-fko.ru/raschety/Calc-Rehau-Solelec.aspx");
+        WebElement selectWebElement = driver.findElement(By.id("heating_type"));
+        Select selectorHeating = new Select(selectWebElement);
+        selectorHeating.selectByValue("2");
+        selectorHeating.selectByVisibleText("Основное отопление");
+    }
+
     @AfterMethod
-    public void tearDown() throws InterruptedException {
-        Thread.sleep(3000);
+    public void tearDown() {
         driver.quit();
     }
 }

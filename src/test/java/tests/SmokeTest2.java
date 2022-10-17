@@ -27,7 +27,7 @@ public class SmokeTest2 {
         WebElement age = driver.findElement(By.id("oAge"));
         WebElement weight = driver.findElement(By.id("oWeight"));
         WebElement height = driver.findElement(By.id("oHeight"));
-        WebElement button = driver.findElement(By.cssSelector("#Form1 > ul > li:nth-child(6) > input[type=button]:nth-child(1)"));
+        WebElement button = driver.findElement(By.cssSelector("input[type='button']"));
 
         selectSex.selectByValue("1");
         creatinine.sendKeys("80");
@@ -45,6 +45,32 @@ public class SmokeTest2 {
         Assert.assertEquals(hbp.getText(), "ХБП: 2 стадия (при наличии почечного повреждения)");
         Assert.assertEquals(cg.getText(), "Cockroft-Gault: 70 (мл/мин)");
         Assert.assertEquals(bsa.getText(), "Поверхность тела:1.58 (кв.м)");
+    }
+
+    @Test
+    public void validateCalculationThermalFloorTest() {
+        driver.get("https://kermi-fko.ru/raschety/Calc-Rehau-Solelec.aspx");
+        WebElement width = driver.findElement(By.id("el_f_width"));
+        WebElement length = driver.findElement(By.id("el_f_lenght"));
+        WebElement room = driver.findElement(By.id("room_type"));
+        Select selectRoom = new Select(room);
+        WebElement heating = driver.findElement(By.id("heating_type"));
+        Select selectHeating = new Select(heating);
+        WebElement heatLoss = driver.findElement(By.id("el_f_losses"));
+        WebElement button = driver.findElement(By.name("button"));
+
+        width.sendKeys("120");
+        length.sendKeys("140");
+        selectRoom.selectByValue("2");
+        selectHeating.selectByValue("2");
+        heatLoss.sendKeys("25");
+        button.click();
+
+        WebElement floorCable = driver.findElement(By.id("floor_cable_power"));
+        WebElement specFloorCable= driver.findElement(By.id("spec_floor_cable_power"));
+
+        Assert.assertEquals(floorCable.getAttribute("value"), "26");
+        Assert.assertEquals(specFloorCable.getAttribute("value"), "0");
     }
 
     @AfterMethod

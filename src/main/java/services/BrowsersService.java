@@ -5,6 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
 public class BrowsersService {
     private final WebDriver driver;
 
@@ -57,7 +60,7 @@ public class BrowsersService {
     public WebDriver getDriver() {
         this.driver.manage().window().maximize();
         this.driver.manage().deleteAllCookies();
-
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
         return driver;
     }
 }

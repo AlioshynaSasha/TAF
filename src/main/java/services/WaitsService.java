@@ -2,13 +2,12 @@ package services;
 
 import configuration.ReadProperties;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
+import org.openqa.selenium.support.ui.*;
 import java.time.Duration;
+import java.util.List;
 
 public class WaitsService {
     private WebDriver driver;
@@ -16,12 +15,12 @@ public class WaitsService {
 
     public WaitsService(WebDriver driver, Duration timeout) {
         this.driver = driver;
-        wait = new WebDriverWait(driver,timeout);
+        this.wait = new WebDriverWait(driver, timeout);
     }
 
     public WaitsService(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver,Duration.ofSeconds(ReadProperties.timeout()));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(ReadProperties.timeout()));
     }
 
     public WebElement waitForVisibilityBy(By by) {
@@ -34,5 +33,23 @@ public class WaitsService {
 
     public Boolean waitForElementInvisible(WebElement element) {
         return wait.until(ExpectedConditions.invisibilityOf(element));
+    }
+
+    public List<WebElement> waitForAllVisibleElementsLocatedBy(By locator) {
+        return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+    }
+
+    public WebElement waitForExists(By locator) {
+        return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+
+    // дополнительно изучить
+    public WebElement fluentWaitForElement(By by) {
+        Wait<WebDriver> fluent = new FluentWait<>(driver)
+        .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofMillis(50))
+                .ignoring(NoSuchElementException.class);
+
+        return fluent.until(driver -> driver.findElement(by));
     }
 }

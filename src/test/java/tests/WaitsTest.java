@@ -24,12 +24,11 @@ public class WaitsTest extends BaseTest {
         Thread.sleep(7000);
         Assert.assertFalse(loading.isDisplayed());
 
-
         Assert.assertTrue(driver.findElement(By.cssSelector("#finish h4")).isDisplayed());
     }
 
     @Test
-    public void presenceOfElementTest1() throws InterruptedException {
+    public void presenceOfElementTest1() {
         driver.get("http://the-internet.herokuapp.com/dynamic_loading/1");
         WaitsService wait = new WaitsService(driver, Duration.ofSeconds(15));
 
@@ -40,7 +39,6 @@ public class WaitsTest extends BaseTest {
         WebElement loading = wait.waitForVisibilityBy(By.id("loading"));
         Assert.assertTrue(loading.isDisplayed());
         Assert.assertTrue(wait.waitForElementInvisible(loading));
-
 
         Assert.assertTrue(wait.waitForVisibilityBy(By.cssSelector("#finish h4")).isDisplayed());
     }

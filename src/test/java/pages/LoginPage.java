@@ -24,15 +24,15 @@ public class LoginPage extends BasePage {
 
     // Блок атомарных методов
     public WebElement getEmailInput() {
-        return driver.findElement(emailInputLocator);
+        return waitsService.waitForVisibilityBy(emailInputLocator);
     }
 
     public WebElement getPswInput() {
-        return driver.findElement(pswInputLocator);
+        return waitsService.waitForVisibilityBy(pswInputLocator);
     }
 
     public WebElement getLoginButton() {
-        return driver.findElement(loginButtonLocator);
+        return waitsService.waitForVisibilityBy(loginButtonLocator);
     }
 
     public void setEmail(String value) {
@@ -48,6 +48,6 @@ public class LoginPage extends BasePage {
     }
 
     public WebElement getErrorTextElement() {
-        return driver.findElement(errorTextLocator);
+        return waitsService.waitForVisibilityBy(errorTextLocator);
     }
 }

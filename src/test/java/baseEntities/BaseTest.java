@@ -9,7 +9,7 @@ import services.BrowsersService;
 import steps.LoginStep;
 import utils.Listener;
 
-@Listeners(Listener.class)
+//@Listeners(Listener.class)
 public abstract class BaseTest {
     protected WebDriver driver;
     protected LoginStep loginStep;

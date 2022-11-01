@@ -11,7 +11,7 @@ public abstract class BasePage {
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        this.waitsService = new WaitsService(driver);
+        waitsService = new WaitsService(driver);
     }
 
     protected abstract By getPageIdentifier();

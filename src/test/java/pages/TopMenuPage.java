@@ -3,19 +3,17 @@ package pages;
 import baseEntities.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class TopMenuPage extends BasePage {
     // Блок описания селекторов для элементов
-    private final By pageIdentifier = By.xpath("");
+    @FindBy(xpath = "")
+    public WebElement pageIdentifier;
 
     // Блок инициализации страницы
     public TopMenuPage(WebDriver driver) {
         super(driver);
-    }
-
-    @Override
-    protected By getPageIdentifier() {
-        return pageIdentifier;
     }
 
     // Блок атомарных методов

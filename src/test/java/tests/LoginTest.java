@@ -30,8 +30,11 @@ public class LoginTest extends BaseTest {
         );
     }
 
-    @Test
-    public void incorrectPswTest() {
-
+    //@Test
+    public void fail_incorrectUsernameTest() {
+        Assert.assertEquals(
+                loginStep.loginIncorrect("sdsd", ReadProperties.password()).getErrorTextElement().getText(),
+                "Email/Login or Password is incorrect. Please try again.111"
+        );
     }
 }

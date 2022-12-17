@@ -1,82 +1,70 @@
 package tests;
 
 import baseEntities.BaseTest;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import configuration.ReadProperties;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.CartPage;
 import pages.ProductsPage;
-import steps.LoginStep;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
+
 public class CartTest extends BaseTest {
-    private CartPage cartPage;
-    @BeforeMethod
-    public void setUp() {
-        super.setUp();
-
-        cartPage = new CartPage(driver);
-    }
-
     @Test
     public void successAddProductToCartTest() {
-        ProductsPage productsPage = new LoginStep(driver).loginSuccessful(ReadProperties.username(), ReadProperties.password());
-        List<WebElement> products = productsPage.getProducts();
+        ProductsPage productsPage = loginStep.loginSuccessful(ReadProperties.username(), ReadProperties.password());
+        int countOfProducts = productsPage.products.size();
         List<String> productsNames = new ArrayList<>();
 
-        for (WebElement product : products) {
-            productsNames.add(product.findElement(By.className("inventory_item_name")).getText());
-            product.findElement(By.xpath("//button[contains(text(), 'Add to cart')]")).click();
+        for (SelenideElement product : productsPage.products) {
+            productsNames.add(product.$(ProductsPage.productNameLocator).getText());
+            product.$(ProductsPage.addProductButton).click();
         }
 
-        cartPage.openPageByUrl();
+        CartPage cartPage = open(CartPage.pagePath, CartPage.class);
 
-        List<WebElement> productsFromCart = cartPage.getProducts();
-
-        Assert.assertEquals(productsFromCart.size(), products.size());
+        Assert.assertEquals(cartPage.products.size(), countOfProducts);
 
         for (String name : productsNames) {
-            Assert.assertTrue(
-                    driver.findElement(
-                            By.xpath(String.format("//div[@class='inventory_item_name'][contains(text(), '%s')]", name))
-                    ).isDisplayed()
-            );
+            $(By.xpath(String.format(CartPage.productNameLocator, name))).shouldBe(Condition.visible);
         }
     }
 
     @Test
     public void successEmptyCartTest() {
-        new LoginStep(driver).login(ReadProperties.username(), ReadProperties.password());
-        cartPage.openPageByUrl();
+        loginStep.loginSuccessful(ReadProperties.username(), ReadProperties.password());
+        CartPage cartPage = open(CartPage.pagePath, CartPage.class);
 
-        Assert.assertEquals(cartPage.getProducts().size(), 0);
+        cartPage.headerTitleLabel.shouldBe(Condition.visible);
+        Assert.assertTrue(cartPage.products.isEmpty());
     }
 
-    @Test(expectedExceptions = NoSuchElementException.class)
+    @Test
     public void incorrectShowCartPageTest() {
-        cartPage.openPageByUrl();
-        cartPage.isPageOpened();
+        CartPage cartPage = open(CartPage.pagePath, CartPage.class);
+        cartPage.headerTitleLabel.shouldNotBe(Condition.visible);
     }
 
     @Test
     public void deleteProductsFromCartTest() {
-        ProductsPage productsPage = new LoginStep(driver).loginSuccessful(ReadProperties.username(), ReadProperties.password());
+        ProductsPage productsPage = loginStep.loginSuccessful(ReadProperties.username(), ReadProperties.password());
 
-        for (WebElement product : productsPage.getProducts()) {
-            product.findElement(By.xpath("//button[contains(text(), 'Add to cart')]")).click();
+        for (SelenideElement product : productsPage.products) {
+            product.$(ProductsPage.addProductButton).click();
         }
 
-        cartPage.openPageByUrl();
+        CartPage cartPage = open(CartPage.pagePath, CartPage.class);
 
-        for (WebElement product : cartPage.getProducts()) {
-            product.findElement(By.xpath("//button[contains(text(), 'Remove')]")).click();
+        for (SelenideElement product : cartPage.products) {
+            product.$(ProductsPage.deleteProductButton).click();
         }
 
-        Assert.assertEquals(cartPage.getProducts().size(), 0);
+        Assert.assertTrue(cartPage.products.isEmpty());
     }
 }

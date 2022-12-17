@@ -1,26 +1,30 @@
 package baseEntities;
 
+import com.codeborne.selenide.Configuration;
 import configuration.ReadProperties;
-import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import services.BrowsersService;
 import steps.LoginStep;
 
+import static com.codeborne.selenide.Selenide.closeWebDriver;
+import static com.codeborne.selenide.Selenide.open;
+
 public abstract class BaseTest {
-    protected WebDriver driver;
     protected LoginStep loginStep;
 
     @BeforeMethod
     public void setUp() {
-        driver = new BrowsersService().getDriver();
-        driver.get(ReadProperties.getUrl());
+        Configuration.browser = ReadProperties.browserName();
+        Configuration.baseUrl = ReadProperties.getUrl();
+        Configuration.headless = ReadProperties.isHeadless();
+        Configuration.timeout = ReadProperties.timeout();
+        Configuration.fastSetValue = true;
 
-        loginStep = new LoginStep(driver);
+        loginStep = open("", LoginStep.class);
     }
 
     @AfterMethod
     public void tearDown() {
-        driver.quit();
+        closeWebDriver();
     }
 }

@@ -1,35 +1,16 @@
 package pages;
 
-import baseEntities.BasePage;
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class CartPage extends BasePage {
-    private final static String pagePath = "cart.html";
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
-    // Блок описания селекторов для элементов
-    private final By headerTitleLabelLocator = By.xpath("//span[@class='title'][contains(text(), 'Your Cart')]");
-    private final By productsLocator = By.className("cart_item");
-
-    // Блок инициализации страницы
-    public CartPage(WebDriver driver) {
-        super(driver);
-    }
-
-    @Override
-    protected By getPageIdentifier() {
-        return headerTitleLabelLocator;
-    }
-
-    public void openPageByUrl() {
-        super.openPageByUrl(pagePath);
-    }
-
-    // Блок атомарных методов
-    public List<WebElement> getProducts() {
-        return driver.findElements(productsLocator);
-    }
+public class CartPage {
+    public final static String pagePath = "cart.html";
+    public SelenideElement headerTitleLabel = $(By.xpath("//span[@class='title'][contains(text(), 'Your Cart')]"));
+    public List<SelenideElement> products = $$(By.className("cart_item"));
+    public final static String productNameLocator = ".//div[@class='inventory_item_name'][contains(text(), '%s')]";
 }

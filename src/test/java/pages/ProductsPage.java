@@ -1,30 +1,14 @@
 package pages;
 
-import baseEntities.BasePage;
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import java.util.List;
 
-public class ProductsPage extends BasePage {
-    private final static String pagePath = "inventory.html";
+import static com.codeborne.selenide.Selenide.$$;
 
-    // Блок описания селекторов для элементов
-    private final By headerTitleLabelLocator = By.xpath("//span[@class='title'][contains(text(), 'Products')]");
-    private final By productsLocator = By.className("inventory_item");
-
-    // Блок инициализации страницы
-    public ProductsPage(WebDriver driver) {
-        super(driver);
-    }
-
-    @Override
-    protected By getPageIdentifier() {
-        return headerTitleLabelLocator;
-    }
-
-    // Блок атомарных методов
-    public List<WebElement> getProducts() {
-        return driver.findElements(productsLocator);
-    }
+public class ProductsPage {
+    public List<SelenideElement> products = $$(By.className("inventory_item"));
+    public final static By productNameLocator = By.className("inventory_item_name");
+    public final static By addProductButton = By.xpath(".//button[contains(text(), 'Add to cart')]");
+    public final static By deleteProductButton = By.xpath(".//button[contains(text(), 'Remove')]");
 }
